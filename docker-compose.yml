@@ -1,8 +1,8 @@
 version: '2.2'
 services:
-  shilton-elasticsearch:
+  elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.9.3
-    container_name: shilton-elasticsearch-container
+    container_name: shilton-elasticsearch
     environment:
       - node.name=shilton-elasticsearch01
       - cluster.name=es-docker-cluster
@@ -19,6 +19,17 @@ services:
       - 9200:9200
     networks:
       - elastic
-
+      
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.9.3
+    container_name: shilton-kibana
+    environment:
+      SERVER_NAME: 172.30.48.1
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - 5601:5601
+    networks:
+      - elastic
+      
 networks:
   elastic:
